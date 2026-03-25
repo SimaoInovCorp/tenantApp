@@ -1,7 +1,8 @@
-import { createInertiaApp } from '@inertiajs/vue3';
+import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
+import { createPinia } from 'pinia';
 import '../css/app.css';
 import { initializeTheme } from '@/composables/useAppearance';
 
@@ -15,13 +16,24 @@ createInertiaApp({
             import.meta.glob<DefineComponent>('./pages/**/*.vue'),
         ),
     setup({ el, App, props, plugin }) {
+        const pinia = createPinia();
+
         createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(pinia)
             .mount(el);
     },
     progress: {
         color: '#4B5563',
     },
+});
+
+// Inject X-Tenant-Slug into all Inertia (non-Axios) navigations
+router.on('before', (event) => {
+    const slug = localStorage.getItem('active_tenant_slug');
+    if (slug) {
+        (event.detail.visit.headers as Record<string, string>)['X-Tenant-Slug'] = slug;
+    }
 });
 
 // This will set light / dark mode on page load...

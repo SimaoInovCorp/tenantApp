@@ -6,6 +6,7 @@ use App\Models\OnboardingTask;
 use App\Models\Plan;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Notifications\TenantInvitedNotification;
 use Illuminate\Support\Str;
 
 /**
@@ -96,6 +97,8 @@ class TenantService
         $tenant->users()->syncWithoutDetaching([
             $user->id => ['role' => $role],
         ]);
+
+        $user->notify(new TenantInvitedNotification($tenant, $role));
     }
 
     /**

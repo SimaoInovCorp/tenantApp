@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Concerns\HasTenantScope;
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -109,7 +110,7 @@ class Subscription extends Model
     }
 
     /** The next date the subscription renews (null if canceled / expired). */
-    public function nextBillingDate(): ?Carbon
+    public function nextBillingDate(): ?CarbonInterface
     {
         if (in_array($this->status, ['canceled', 'expired'], true)) {
             return null;

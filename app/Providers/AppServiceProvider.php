@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\TenantManager;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Bind TenantManager as a singleton so every class that type-hints it
+        // gets the same instance throughout the entire request lifecycle.
+        $this->app->singleton(TenantManager::class);
     }
 
     /**
