@@ -21,6 +21,8 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /auth.json
+write_pages.js
+write_pages.cjs
 /.fleet
 /.idea
 /.nova
@@ -30,3 +32,7 @@ yarn-error.log
 Solid.md
 TenantApp.md
 .env.example
+.TODO.md
+.examples.md
+.statement.md
+
