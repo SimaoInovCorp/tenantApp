@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-vue-next';
+import {
+    LayoutGrid,
+    Building2,
+    CreditCard,
+    FileText,
+    Star,
+} from 'lucide-vue-next';
 import AppLogo from '@/components/AppLogo.vue';
-import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import {
@@ -15,6 +20,10 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import * as TenantController from '@/actions/App/Http/Controllers/TenantController';
+import * as SubscriptionController from '@/actions/App/Http/Controllers/SubscriptionController';
+import * as PlanController from '@/actions/App/Http/Controllers/PlanController';
+import * as PlanChangeLogController from '@/actions/App/Http/Controllers/PlanChangeLogController';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -23,18 +32,25 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
-];
-
-const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: FolderGit2,
+        title: 'My Organizations',
+        href: TenantController.index(),
+        icon: Building2,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
+        title: 'Subscription',
+        href: SubscriptionController.show(),
+        icon: CreditCard,
+    },
+    {
+        title: 'Plans',
+        href: PlanController.index(),
+        icon: Star,
+    },
+    {
+        title: 'Plan History',
+        href: PlanChangeLogController.index(),
+        icon: FileText,
     },
 ];
 </script>
@@ -58,7 +74,6 @@ const footerNavItems: NavItem[] = [
         </SidebarContent>
 
         <SidebarFooter>
-            <NavFooter :items="footerNavItems" />
             <NavUser />
         </SidebarFooter>
     </Sidebar>
